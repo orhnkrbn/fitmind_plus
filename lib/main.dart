@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'app/router.dart';
@@ -36,3 +37,10 @@ class FitMindUltraApp extends ConsumerWidget {
     );
   }
 }
+=======
+import 'src/app.dart';
+
+void main() {
+  runApp(const FitMindApp());
+}
+>>>>>>> 6058be767d13b06871003f218e445296ac021be6

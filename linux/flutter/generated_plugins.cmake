@@ -3,11 +3,17 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+<<<<<<< HEAD
   file_selector_linux
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
   tflite_flutter
+=======
+)
+
+list(APPEND FLUTTER_FFI_PLUGIN_LIST
+>>>>>>> 6058be767d13b06871003f218e445296ac021be6
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)

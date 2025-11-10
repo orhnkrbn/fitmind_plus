@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Theme applied to the Android Window while the process is starting when the OS's Dark Mode setting is off -->
@@ -16,3 +17,11 @@
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
 </resources>
+=======
+<resources>
+    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar"></style>
+</resources>
+>>>>>>> 6058be767d13b06871003f218e445296ac021be6

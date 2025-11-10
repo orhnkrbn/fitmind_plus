@@ -1,11 +1,23 @@
+<<<<<<< HEAD
 name: fitmind_plus_ultra_22
 
 environment:
   sdk: ">=3.9.0 <4.0.0"   # Flutter 3.35.x (Dart 3.9) için
+=======
+name: fitmind_plus
+description: "FitMind+ — Professional fitness & motivation app base"
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+>>>>>>> 6058be767d13b06871003f218e445296ac021be6
 
 dependencies:
   flutter:
     sdk: flutter
+<<<<<<< HEAD
 
   # Firebase v3 hattı (birbiriyle uyumlu)
 
@@ -19,6 +31,10 @@ dependencies:
   tflite_flutter: ^0.11.0
   firebase_core: 2.31.1
   firebase_auth: 4.19.6
+=======
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.3.2
+>>>>>>> 6058be767d13b06871003f218e445296ac021be6
 
 dev_dependencies:
   flutter_test:
@@ -28,4 +44,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+<<<<<<< HEAD
     - assets/ml/food.tflite
+=======
+    - lib/assets/images/
+>>>>>>> 6058be767d13b06871003f218e445296ac021be6
