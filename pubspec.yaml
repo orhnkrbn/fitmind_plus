@@ -1,0 +1,31 @@
+name: fitmind_plus_ultra_22
+
+environment:
+  sdk: ">=3.9.0 <4.0.0"   # Flutter 3.35.x (Dart 3.9) için
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Firebase v3 hattı (birbiriyle uyumlu)
+
+  # Diğerleri
+  flutter_riverpod: ^2.5.1
+  go_router: ^14.2.0
+  image_picker: ^1.1.2
+  fl_chart: ^0.68.0
+  google_fonts: ^6.2.1
+  shared_preferences: ^2.3.2
+  tflite_flutter: ^0.11.0
+  firebase_core: 2.31.1
+  firebase_auth: 4.19.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/ml/food.tflite
