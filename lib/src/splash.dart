@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_shell.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashGate extends StatefulWidget {
   const SplashGate({super.key});
@@ -14,9 +14,8 @@ class _SplashGateState extends State<SplashGate> {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const HomeShell()),
-        );
+        // Use GoRouter to navigate so navigation is consistent with app router.
+        context.go('/home');
       }
     });
   }

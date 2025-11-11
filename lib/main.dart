@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'app/router.dart';
 import 'app/theme.dart';
 import 'features/settings/presentation/theme_controller.dart';
@@ -24,6 +24,7 @@ class FitMindUltraApp extends ConsumerWidget {
     final darkTheme = buildDarkTheme();
 
     return MaterialApp.router(
+      title: 'FitMind+',
       debugShowCheckedModeBanner: false,
       themeMode: dark ? ThemeMode.dark : ThemeMode.light,
       theme: lightTheme.copyWith(
@@ -37,10 +38,3 @@ class FitMindUltraApp extends ConsumerWidget {
     );
   }
 }
-=======
-import 'src/app.dart';
-
-void main() {
-  runApp(const FitMindApp());
-}
->>>>>>> 6058be767d13b06871003f218e445296ac021be6
