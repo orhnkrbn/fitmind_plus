@@ -80,7 +80,7 @@ class _NutritionPageState extends State<NutritionPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(m.name),
-                      Text(f"{m.calories} kcal • {m.protein}g P"),
+                      Text("${m.calories} kcal • ${m.protein}g P"),
                     ],
                   ),
                 ),
@@ -89,7 +89,7 @@ class _NutritionPageState extends State<NutritionPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Toplam'),
-                    Text(f"{totalCal} kcal • {totalPro}g P", style: const TextStyle(fontWeight: FontWeight.w600)),
+                    Text("${totalCal} kcal • ${totalPro}g P", style: const TextStyle(fontWeight: FontWeight.w600)),
                   ],
                 )
               ],

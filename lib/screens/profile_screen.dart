@@ -36,15 +36,15 @@ class ProfileScreen extends StatelessWidget {
             child: ListTile(
               leading: const Icon(Icons.info_outline),
               title: const Text('Hesap Oluşturma'),
-              subtitle: Text('${user?.createdAt.toLocal()}'),
+              subtitle: Text(user?.createdAt?.toLocal().toString() ?? ''),
             ),
           ),
           const SizedBox(height: 8),
-          Card(
+          const Card(
             child: ListTile(
-              leading: const Icon(Icons.security),
-              title: const Text('Gizlilik ve Güvenlik'),
-              subtitle: const Text('Verilerin yalnızca sana ait. Sadece kendi verini görüntülersin.'),
+              leading: Icon(Icons.security),
+              title: Text('Gizlilik ve Güvenlik'),
+              subtitle: Text('Verilerin yalnızca sana ait. Sadece kendi verini görüntülersin.'),
             ),
           ),
         ],
