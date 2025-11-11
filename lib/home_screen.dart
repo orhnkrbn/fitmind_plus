@@ -4,6 +4,8 @@ import 'auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
+
   final TextEditingController dataController = TextEditingController();
 
   @override
@@ -12,10 +14,10 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('FitMind+ Home'),
+        title: const Text('FitMind+ Home'),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             onPressed: () async {
               await auth.signOut();
             },
@@ -25,11 +27,11 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(controller: dataController, decoration: InputDecoration(labelText: 'Enter data')),
+                  child: TextField(controller: dataController, decoration: const InputDecoration(labelText: 'Enter data')),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -40,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                     });
                     dataController.clear();
                   },
-                  child: Text('Add'),
+                  child: const Text('Add'),
                 ),
               ],
             ),
@@ -49,7 +51,7 @@ class HomeScreen extends StatelessWidget {
             child: StreamBuilder(
               stream: FirebaseFirestore.instance.collection('user_data').orderBy('timestamp', descending: true).snapshots(),
               builder: (context, snapshot) {
-                if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+                if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
                 final docs = snapshot.data!.docs;
                 return ListView.builder(
                   itemCount: docs.length,

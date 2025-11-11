@@ -1,12 +1,14 @@
 // lib/providers/auth_provider.dart
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AppUser {
   final String? name;
   final String? email;
-  const AppUser({this.name, this.email});
+  final String? photoUrl;
+  final DateTime? createdAt;
+
+  const AppUser({this.name, this.email, this.photoUrl, this.createdAt});
 }
 
 class AuthProvider with ChangeNotifier {
@@ -44,19 +46,15 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<String?> signUpWithEmail({
-    required String email,
-    required String password,
-    String? displayName,
-  }) async {
+  Future<String?> signUpWithEmail(String email, String password, {String? name}) async {
     try {
       _setLoading(true);
       final cred = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      if (displayName != null && displayName.isNotEmpty) {
-        await cred.user?.updateDisplayName(displayName);
+      if (name != null && name.isNotEmpty) {
+        await cred.user?.updateDisplayName(name);
       }
       return null;
     } on FirebaseAuthException catch (e) {

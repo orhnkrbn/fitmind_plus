@@ -32,7 +32,7 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
                 Text(w.title, style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 8),
                 for (final ex in w.exercises) Padding(
-                  padding: EdgeInsets.only(left: 8.0, bottom: 4 * phi),
+                  padding: const EdgeInsets.only(left: 8.0, bottom: 4 * phi),
                   child: Row(
                     children: [
                       const Icon(Icons.check_circle_outline, size: 18),
