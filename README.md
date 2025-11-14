@@ -79,3 +79,22 @@ Uygulama modern, akıcı, Apple Fitness benzeri bir UI/UX ile geliştirilmiştir
 ---
 
 # 🧩 Architecture
+lib/
+├── core/
+│    ├── constants/
+│    ├── services/
+│    │     ├── ai/
+│    │     │     ├── ai_client_interface.dart
+│    │     │     ├── openai_service.dart
+│    │     │     └── ollama_service.dart
+│    └── utils/
+├── data/
+│    ├── models/
+│    ├── repositories/
+├── providers/
+├── ui/
+│    ├── screens/
+│    ├── widgets/
+│    └── themes/
+└── assets/
+└── json/
