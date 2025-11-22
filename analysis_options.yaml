@@ -1,0 +1,27 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    # Disabled rules
+    public_member_api_docs: ignore
+    lines_longer_than_80_chars: ignore
+
+    # Lower severity (override default 'error' -> 'warning')
+    prefer_const_constructors: warning
+    prefer_const_literals_to_create_immutables: warning
+
+    # Set to info
+    unnecessary_this: info
+    avoid_print: info
+    unnecessary_underscores: ignore
+
+linter:
+  rules:
+    # Keep useful flutter_lints rules enabled; we can still override severities above
+    use_key_in_widget_constructors: true
+    prefer_const_constructors: true
+    prefer_const_constructors_in_immutables: true
+    use_super_parameters: true
+    prefer_final_fields: true
+    avoid_print: true
+

@@ -1,0 +1,3 @@
+class NutritionController {
+  // placeholder
+}

@@ -1,0 +1,35 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [ main, master, chore/codegen-deps ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  analyze_and_test:
+    runs-on: ubuntu-latest
+    container: docker://cirrusci/flutter:stable
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache pub and build outputs
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+            .dart_tool/package_config.json
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Codegen (build_runner)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test --no-pub

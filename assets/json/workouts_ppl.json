@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "program": "PPL - 4 haftalık",
+    "description": "Push/Pull/Legs (PPL) temel planı; hedefe (fatloss/muscle) göre hafif varyasyonlar içerir.",
+    "weeks": 4
+  },
+  "weeks": [
+    {
+      "week": 1,
+      "days": [
+        {
+          "day": "Push",
+          "goal": ["fatloss", "muscle"],
+          "exercises": [
+            { "name": "Bench Press", "sets": 3, "reps": "8-12", "rest_sec": 90, "tips": "Güçlü nefes veriş, kontrollü iniş" },
+            { "name": "Incline Dumbbell Press", "sets": 3, "reps": "10-12", "rest_sec": 60, "tips": "Omuzlardan kaçın, göğüse odaklan" },
+            { "name": "Overhead Press", "sets": 3, "reps": "6-10", "rest_sec": 90, "tips": "Sırtı sabit tut" },
+            { "name": "Triceps Rope Pushdown", "sets": 3, "reps": "12-15", "rest_sec": 45, "tips": "Dirseklerin sabit kalsın" }
+          ]
+        },
+        {
+          "day": "Pull",
+          "goal": ["fatloss", "muscle"],
+          "exercises": [
+            { "name": "Pull Ups (assisted if needed)", "sets": 3, "reps": "6-10", "rest_sec": 90, "tips": "Tam sıkışma, kontrollü negatif" },
+            { "name": "Barbell Row", "sets": 3, "reps": "8-12", "rest_sec": 90, "tips": "Belden fazla eğilme" },
+            { "name": "Face Pulls", "sets": 3, "reps": "12-15", "rest_sec": 45, "tips": "Omuz arkasını hisset" },
+            { "name": "Biceps Curl", "sets": 3, "reps": "10-14", "rest_sec": 45, "tips": "Tam kontralasyon" }
+          ]
+        },
+        {
+          "day": "Legs",
+          "goal": ["fatloss", "muscle"],
+          "exercises": [
+            { "name": "Back Squat", "sets": 3, "reps": "6-10", "rest_sec": 120, "tips": "Derin ama kontrollü; dizler ayak parmaklarını geçmesin diye çalış" },
+            { "name": "Romanian Deadlift", "sets": 3, "reps": "8-12", "rest_sec": 90, "tips": "Hamstringi hissederek indir" },
+            { "name": "Leg Press veya Walking Lunges", "sets": 3, "reps": "10-15", "rest_sec": 60, "tips": "Kas hissini ön planda tut" },
+            { "name": "Calf Raise", "sets": 3, "reps": "12-20", "rest_sec": 45, "tips": "Tam üst noktada duruş" }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "days": [
+        { "day": "Push", "variant": "Push (ağırlık artışı veya daha düşük tekrarlar)" },
+        { "day": "Pull", "variant": "Pull (daha fazla çekiş hacmi)" },
+        { "day": "Legs", "variant": "Legs (tek bacak işlerine ek)" }
+      ]
+    },
+    {
+      "week": 3,
+      "days": [
+        { "day": "Upper", "detail": "Upper split: Göğüs/omuz/arka kol hafif hacim" },
+        { "day": "Lower", "detail": "Lower split: Squat odaklı, posterior zincir" },
+        { "day": "Push", "detail": "Push - Daha yoğun setler" }
+      ]
+    },
+    {
+      "week": 4,
+      "days": [
+        { "day": "Push", "note": "Deload veya hafif haftası seçilebilir" },
+        { "day": "Pull", "note": "Tekrar tekniğine odaklan" },
+        { "day": "Legs", "note": "Hareket aralığı ve form önceliği" }
+      ]
+    }
+  ],
+  "goal_adjustments": {
+    "fatloss": {
+      "notes": "Daha fazla tempo, daha kısa dinlenme (60-75s) ve kondisyona odaklı ek kardiyo. Hacim artırımı yerine yoğunluk dikkat edilir.",
+      "example": "Bench Press 3x8 tempo 2020, dinlenme 75s"
+    },
+    "muscle": {
+      "notes": "Hacim ve progresif overload öncelikli. Dinlenmeler 90-120s, tekrar aralıkları 6-12 arası.",
+      "example": "Bench Press 4x8-10, her hafta 1-2.5 kg artış hedefi"
+    }
+  }
+}

@@ -1,0 +1,2 @@
+# placeholder
+This directory is for app icons used in the project.

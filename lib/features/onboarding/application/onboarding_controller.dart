@@ -1,0 +1,3 @@
+class OnboardingController {
+  // placeholder controller
+}

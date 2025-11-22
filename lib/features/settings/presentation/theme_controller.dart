@@ -1,0 +1,1 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart'; class ThemeController extends StateNotifier<bool>{ThemeController():super(false);} final darkModeProvider=StateNotifierProvider<ThemeController,bool>((_)=>ThemeController());

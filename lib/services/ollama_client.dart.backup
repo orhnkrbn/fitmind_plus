@@ -1,0 +1,231 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
+
+/// Özel Ollama hata tipi - UI'da yakalayıp mesaj gösterebiliriz.
+class OllamaException implements Exception {
+  final String message;
+  OllamaException(this.message);
+
+  @override
+  String toString() => 'OllamaException: $message';
+}
+
+/// FitMind+ için Ollama istemcisi.
+/// 
+/// Kullanım:
+/// ```dart
+/// final client = OllamaClient();
+/// try {
+///   final response = await client.sendMessage('Merhaba!');
+///   print(response);
+/// } on OllamaException catch (e) {
+///   print('Hata: ${e.message}');
+/// }
+/// ```
+class OllamaClient {
+  /// Ollama sunucu adresi (örn: http://localhost:11434)
+  final String baseUrl;
+
+  /// Kullanılacak model adı (örn: "qwen2.5:1.5b", "llama3", "qwen3:4b")
+  final String model;
+
+  /// Zaman aşımı süresi
+  final Duration timeout;
+
+  OllamaClient({
+    this.baseUrl = 'http://localhost:11434',
+    this.model = 'qwen2.5:1.5b', // Küçük ve hızlı model (varsayılan)
+    this.timeout = const Duration(seconds: 40),
+  });
+
+  /// Kullanıcı mesajını Ollama'ya gönderir ve yanıtı döndürür.
+  /// 
+  /// Sistem prompt otomatik olarak eklenir (fitness koçu konteksti).
+  /// 
+  /// Hata durumlarında [OllamaException] fırlatır:
+  /// - Timeout
+  /// - Bağlantı hatası (Ollama kapalı)
+  /// - HTTP 200 dışı yanıt
+  /// - Boş veya geçersiz yanıt
+  /// - JSON parse hatası
+  Future<String> sendMessage(String userMessage) async {
+    final uri = Uri.parse('$baseUrl/api/generate');
+
+    // FitMind+ fitness koçu sistem promptu
+    final systemPrompt = '''
+Sen FitMind+ adında Türkçe konuşan bir fitness ve motivasyon koçusun.
+Kullanıcıya yağ yakımı, kas gelişimi ve mental güçlenme konularında yardımcı ol.
+Tıbbi teşhis koyma, ciddi sağlık sorunlarında doktora yönlendir.
+
+Cevap kuralları:
+- Kısa ve net cevaplar ver (max 3-4 cümle)
+- Motive edici ve pozitif ol
+- Türkçe kullan
+- Emoji kullanabilirsin ama abartma
+''';
+
+    final fullPrompt = '''
+$systemPrompt
+
+KULLANICI MESAJI:
+$userMessage
+
+CEVAP:''';
+
+    final body = jsonEncode({
+      'model': model,
+      'prompt': fullPrompt,
+      'stream': false,
+      'options': {
+        'num_predict': 256, // Maksimum 256 token yanıt (kısa ve öz)
+        'temperature': 0.7, // Dengeli yaratıcılık
+        'top_p': 0.9,
+        'top_k': 40,
+      },
+    });
+
+    http.Response response;
+
+    // HTTP isteği ve temel hata yakalama
+    try {
+      debugPrint('🔵 Ollama isteği gönderiliyor');
+      debugPrint('   📍 URL: $uri');
+      debugPrint('   🤖 Model: $model');
+      debugPrint('   ⏱️  Timeout: ${timeout.inSeconds}s');
+      debugPrint('   📝 Prompt uzunluğu: ${fullPrompt.length} karakter');
+      
+      response = await http
+          .post(
+            uri,
+            headers: {'Content-Type': 'application/json'},
+            body: body,
+          )
+          .timeout(
+            timeout,
+            onTimeout: () {
+              throw TimeoutException(
+                'Ollama ${timeout.inSeconds} saniye içinde yanıt vermedi',
+                timeout,
+              );
+            },
+          );
+          
+      debugPrint('🟢 Ollama HTTP yanıtı alındı');
+      debugPrint('   📊 Status Code: ${response.statusCode}');
+      debugPrint('   📦 Body uzunluğu: ${response.body.length} karakter');
+      
+    } on TimeoutException {
+      debugPrint('🔴 TIMEOUT HATASI');
+      debugPrint('   ⏱️  Süre: ${timeout.inSeconds}s');
+      debugPrint('   💡 Çözüm: Model çok büyük olabilir, daha küçük model dene');
+      throw OllamaException(
+        'Ollama ${timeout.inSeconds} saniye içinde cevap vermedi. '
+        'Model çok büyük veya sistem yavaş olabilir. '
+        'Daha küçük bir model (örn: qwen2.5:1.5b) kullanmayı dene.',
+      );
+    } on SocketException catch (e) {
+      debugPrint('🔴 BAĞLANTI HATASI');
+      debugPrint('   🌐 URL: $baseUrl');
+      debugPrint('   ❌ Hata: ${e.message}');
+      debugPrint('   💡 Çözüm: "ollama serve" çalıştığından emin ol');
+      throw OllamaException(
+        'Ollama sunucusuna bağlanılamadı ($baseUrl). '
+        'Lütfen kontrol et:\n'
+        '1. Terminal\'de "ollama serve" çalışıyor mu?\n'
+        '2. URL doğru mu? (varsayılan: http://localhost:11434)\n'
+        '3. Firewall engelliyor mu?',
+      );
+    } on FormatException catch (e) {
+      debugPrint('🔴 FORMAT HATASI (istek gönderme)');
+      debugPrint('   ❌ Hata: $e');
+      throw OllamaException(
+        'İstek formatında hata oluştu: $e',
+      );
+    } catch (e) {
+      debugPrint('🔴 BEKLENMEDİK HATA (HTTP katmanı)');
+      debugPrint('   ❌ Hata: $e');
+      debugPrint('   🔍 Tip: ${e.runtimeType}');
+      throw OllamaException(
+        'Beklenmeyen bir ağ hatası oluştu: $e',
+      );
+    }
+
+    // HTTP status kontrolü
+    if (response.statusCode != 200) {
+      debugPrint('🔴 HTTP HATA YANITI');
+      debugPrint('   📊 Status Code: ${response.statusCode}');
+      debugPrint('   📄 Body: ${response.body.substring(0, response.body.length > 200 ? 200 : response.body.length)}...');
+      
+      String errorMessage = 'HTTP ${response.statusCode} hatası';
+      
+      // Yaygın hata kodlarını açıkla
+      switch (response.statusCode) {
+        case 404:
+          errorMessage = 'Model bulunamadı ($model). "ollama list" ile mevcut modelleri kontrol et.';
+          break;
+        case 500:
+          errorMessage = 'Ollama sunucu hatası. Ollama loglarını kontrol et.';
+          break;
+        case 503:
+          errorMessage = 'Ollama servisi kullanılamıyor. Yeniden başlatmayı dene.';
+          break;
+        default:
+          errorMessage = 'Ollama HTTP ${response.statusCode} hatası döndürdü.';
+      }
+      
+      throw OllamaException(
+        '$errorMessage\nDetay: ${response.body.length > 100 ? '${response.body.substring(0, 100)}...' : response.body}',
+      );
+    }
+
+    // JSON parse ve yanıt çıkarma
+    try {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      
+      debugPrint('🟢 JSON parse başarılı');
+      debugPrint('   🔑 Anahtarlar: ${data.keys.join(", ")}');
+      
+      // Ollama'nın farklı API endpoint'leri farklı alan isimleri kullanabiliyor
+      final text = (data['response'] ?? 
+                    data['message'] ?? 
+                    data['text'] ?? 
+                    data['content'] ??
+                    '') as String;
+
+      if (text.trim().isEmpty) {
+        debugPrint('🔴 BOŞ YANIT');
+        debugPrint('   📄 Raw body: ${response.body}');
+        debugPrint('   💡 Model düzgün çalışmıyor olabilir');
+        throw OllamaException(
+          'Ollama boş bir yanıt döndürdü. '
+          'Model yüklü mü? "ollama list" ve "ollama run $model" ile kontrol et.',
+        );
+      }
+
+      debugPrint('✅ BAŞARILI YANIT');
+      debugPrint('   📝 Uzunluk: ${text.length} karakter');
+      debugPrint('   📄 Önizleme: ${text.substring(0, text.length > 50 ? 50 : text.length)}...');
+      
+      return text.trim();
+      
+    } on FormatException catch (e) {
+      debugPrint('🔴 JSON PARSE HATASI');
+      debugPrint('   ❌ Hata: $e');
+      debugPrint('   📄 Body: ${response.body.substring(0, response.body.length > 200 ? 200 : response.body.length)}...');
+      throw OllamaException(
+        'Ollama yanıtı JSON formatında değil. '
+        'Beklenmeyen bir yanıt alındı: ${response.body.substring(0, response.body.length > 100 ? 100 : response.body.length)}',
+      );
+    } catch (e) {
+      debugPrint('🔴 PARSE SONRASI HATA');
+      debugPrint('   ❌ Hata: $e');
+      throw OllamaException(
+        'Yanıt işlenirken hata oluştu: $e',
+      );
+    }
+  }
+}

@@ -1,0 +1,3 @@
+class ScannerController {
+  // placeholder controller
+}

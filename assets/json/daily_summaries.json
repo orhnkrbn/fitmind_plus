@@ -1,0 +1,11 @@
+{
+  "summaries": [
+    { "date": "2025-11-10", "calories_burned": 520, "steps": 8423, "workout_done": true, "note": "Göğüs günü; yoğun setler" },
+    { "date": "2025-11-09", "calories_burned": 310, "steps": 6230, "workout_done": false, "note": "Hafif yürüyüş, dinlenme" },
+    { "date": "2025-11-08", "calories_burned": 680, "steps": 10212, "workout_done": true, "note": "Bacak antrenmanı, yüksek yoğunluk" },
+    { "date": "2025-11-07", "calories_burned": 400, "steps": 7450, "workout_done": false, "note": "Esneme ve kısa yürüyüş" },
+    { "date": "2025-11-06", "calories_burned": 590, "steps": 9560, "workout_done": true, "note": "Sırt & çekiş, iyi performans" },
+    { "date": "2025-11-05", "calories_burned": 470, "steps": 8340, "workout_done": true, "note": "Full body, hafif ağırlık" },
+    { "date": "2025-11-04", "calories_burned": 250, "steps": 4120, "workout_done": false, "note": "Yoğun çalışma nedeniyle dinlenme" }
+  ]
+}
